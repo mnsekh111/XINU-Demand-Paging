@@ -1,8 +1,31 @@
 /* paging.h */
 
-typedef unsigned int	 bsd_t;
+#define NBPG		4096	/* number of bytes per page	*/
+#define FRAME0		1024	/* zero-th frame		*/
 
-/* Structure for a page directory entry */
+#define NGPT 4 /*number of global page tables*/
+
+#define BSM_UNMAPPED	0
+#define BSM_MAPPED	1
+
+#define FRM_UNMAPPED	0
+#define FRM_MAPPED	1
+
+#define FR_PAGE		0
+#define FR_TBL		1
+#define FR_DIR		2
+
+#define FIFO		3
+#define LRU		4
+
+#define MAX_ID          15              /* You get 16 mappings, 0 - 15 */
+
+#define BACKING_STORE_BASE	0x00800000   /* 8MB */
+#define BACKING_STORE_UNIT_SIZE 0x00080000 /*512 KB */
+#define NFRAMES		1024
+#define NBS		16	/* Total number of backing stores */
+
+typedef unsigned int bsd_t;
 
 typedef struct {
 
@@ -61,8 +84,9 @@ typedef struct{
   unsigned long int fr_loadtime;	/* when the page is loaded 	*/
 }fr_map_t;
 
-extern bs_map_t bsm_tab[];
-extern fr_map_t frm_tab[];
+extern bs_map_t bsm_tab[NBS];
+extern fr_map_t frm_tab[NFRAMES];
+
 /* Prototypes for required API calls */
 SYSCALL xmmap(int, bsd_t, int);
 SYSCALL xunmap(int);
@@ -74,27 +98,4 @@ SYSCALL release_bs(bsd_t);
 SYSCALL read_bs(char *, bsd_t, int);
 SYSCALL write_bs(char *, bsd_t, int);
 
-#define NBPG		4096	/* number of bytes per page	*/
-#define FRAME0		1024	/* zero-th frame		*/
 
-//default 3072 frames --> 1024+3072=4096=16M
-//#define NFRAMES 	3072	/* number of frames		*/
-#define NFRAMES 	8	/* number of frames		*/
-
-#define BSM_UNMAPPED	0
-#define BSM_MAPPED	1
-
-#define FRM_UNMAPPED	0
-#define FRM_MAPPED	1
-
-#define FR_PAGE		0
-#define FR_TBL		1
-#define FR_DIR		2
-
-#define FIFO		3
-#define GCM		4
-
-#define MAX_ID          9              /* You get 10 mappings, 0 - 9 */
-
-#define BACKING_STORE_BASE	0x00600000
-#define BACKING_STORE_UNIT_SIZE 0x00100000

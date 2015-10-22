@@ -15,6 +15,14 @@ void halt();
 int main()
 {
 
+	int * a = 4000*NBPG;
+	*a = 10;
 
+	kprintf("Valid access %d",*a);
+
+
+	// invalid access
+//	a = 4097 * NBPG;
+//	*a = 15;
 	return 0;
 }

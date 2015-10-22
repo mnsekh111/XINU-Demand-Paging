@@ -72,7 +72,7 @@ struct	pentry	{
         int     prate;                  /* rate value in psp            */
 
 /* for demand paging */
-        unsigned long pdbr;             /* PDBR                         */
+	unsigned long pdbr;             /* PDBR                         */
         int     store;                  /* backing store for vheap      */
         int     vhpno;                  /* starting pageno for vheap    */
         int     vhpnpages;              /* vheap size                   */
