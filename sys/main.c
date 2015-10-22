@@ -15,13 +15,25 @@ void halt();
 int main()
 {
 
+
 	int * a = 4000*NBPG;
 	*a = 10;
 
 	kprintf("Valid access %d",*a);
 
+	kprintf("Main process pdbr %lu",proctab[currpid].pdbr);
 
-	// invalid access
+
+	//Checking if global page tables are the same
+	int i;
+	pd_t * ptr = (pd_t*)proctab[currpid].pdbr;
+	pd_t * ptr2 = (pd_t*)proctab[NULLPROC].pdbr;
+	for(i =0;i<4;i++){
+		kprintf("%u %u\n",ptr->pd_base,ptr2->pd_base);
+
+		ptr++;
+		ptr2++;
+	}
 //	a = 4097 * NBPG;
 //	*a = 15;
 	return 0;

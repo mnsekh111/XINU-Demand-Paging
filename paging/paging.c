@@ -38,7 +38,8 @@ void init_global_pg_tab() {
 	//Get a new frame for page directory
 	get_frm(&new_frame_pd);
 	frm_tab[new_frame_pd].fr_type = FR_DIR;
-	frm_tab[new_frame_pd].fr_refcnt++;
+	frm_tab[new_frame_pd].fr_pid = NULLPROC;
+
 
 	pd_t * dir_entry; // For tables
 	pt_t * tab_entry; // For pages
@@ -48,20 +49,24 @@ void init_global_pg_tab() {
 	for (i = 0; i < NGPT; i++) {
 
 		get_frm(&new_frame_pt);
-
 		kprintf("New frame %d",new_frame_pt);
-
 		frm_tab[new_frame_pt].fr_type = FR_TBL;
-		frm_tab[new_frame_pt].fr_refcnt++;
+		frm_tab[new_frame_pt].fr_pid = NULLPROC;
+
 
 		tab_entry = (pt_t*) ((new_frame_pt + FRAME0) * NBPG);
 		init_pd_entry(dir_entry);
 		dir_entry->pd_base = new_frame_pt + FRAME0;
 
+		//Ref count incremented when entry is added to this frame
+		frm_tab[new_frame_pd].fr_refcnt++;
+
 
 		for (j = 0; j < NBPG / 4; j++) {
 			init_pt_entry(tab_entry);
 			tab_entry->pt_base = (i*NBPG / 4)+j;
+			frm_tab[new_frame_pt].fr_refcnt++;
+
 			tab_entry++;
 		}
 
