@@ -14,8 +14,6 @@ void halt();
  */
 int main()
 {
-
-
 	int * a = 4000*NBPG;
 	*a = 10;
 
@@ -34,6 +32,8 @@ int main()
 		ptr++;
 		ptr2++;
 	}
+
+//      Invalid access
 //	a = 4097 * NBPG;
 //	*a = 15;
 	return 0;
