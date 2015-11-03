@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <df name="com">
+        <in>comcntl.c</in>
+        <in>comgetc.c</in>
+        <in>comiin.c</in>
+        <in>cominit.c</in>
+        <in>cominput.c</in>
+        <in>comintr.c</in>
+        <in>comoutput.c</in>
+        <in>comread.c</in>
+      </df>
+      <df name="config">
+        <in>lex.yy.c</in>
+        <in>y.tab.c</in>
+      </df>
+      <df name="lib">
+        <df name="libxc">
+          <in>abs.c</in>
+          <in>atof.c</in>
+          <in>atoi.c</in>
+          <in>atol.c</in>
+          <in>bzero.c</in>
+          <in>ctype_.c</in>
+          <in>doprnt.c</in>
+          <in>doscan.c</in>
+          <in>ecvt.c</in>
+          <in>fgets.c</in>
+          <in>fprintf.c</in>
+          <in>fputs.c</in>
+          <in>gets.c</in>
+          <in>index.c</in>
+          <in>printf.c</in>
+          <in>puts.c</in>
+          <in>qsort.c</in>
+          <in>rand.c</in>
+          <in>rindex.c</in>
+          <in>scanf.c</in>
+          <in>sprintf.c</in>
+          <in>strcat.c</in>
+          <in>strchr.c</in>
+          <in>strcmp.c</in>
+          <in>strcpy.c</in>
+          <in>strlen.c</in>
+          <in>strncat.c</in>
+          <in>strncmp.c</in>
+          <in>strncpy.c</in>
+          <in>swab.c</in>
+        </df>
+      </df>
+      <df name="mon">
+        <in>ethcmd.c</in>
+        <in>ethdemux.c</in>
+        <in>ethinit.c</in>
+        <in>ethintr.c</in>
+        <in>ethrom.c</in>
+        <in>ethwrite.c</in>
+        <in>ethwstrt.c</in>
+        <in>mon3com.c</in>
+        <in>monarp.c</in>
+        <in>monboot.c</in>
+        <in>monbootp.c</in>
+        <in>mongpq.c</in>
+        <in>monip.c</in>
+        <in>monitor.c</in>
+        <in>monnet.c</in>
+        <in>monpci.c</in>
+        <in>montftp.c</in>
+        <in>montimer.c</in>
+        <in>monudp.c</in>
+      </df>
+      <df name="paging">
+        <in>bsm.c</in>
+        <in>control_reg.c</in>
+        <in>dump32.c</in>
+        <in>fifo.c</in>
+        <in>frame.c</in>
+        <in>frameutils.c</in>
+        <in>get_bs.c</in>
+        <in>lru.c</in>
+        <in>paging.c</in>
+        <in>pagingutils.c</in>
+        <in>pfint.c</in>
+        <in>policy.c</in>
+        <in>read_bs.c</in>
+        <in>release_bs.c</in>
+        <in>vcreate.c</in>
+        <in>vfreemem.c</in>
+        <in>vgetmem.c</in>
+        <in>write_bs.c</in>
+        <in>xm.c</in>
+      </df>
+      <df name="sys">
+        <in>blkcmp.c</in>
+        <in>blkequ.c</in>
+        <in>chprio.c</in>
+        <in>clkinit.c</in>
+        <in>close.c</in>
+        <in>conf.c</in>
+        <in>control.c</in>
+        <in>create.c</in>
+        <in>evec.c</in>
+        <in>freebuf.c</in>
+        <in>freemem.c</in>
+        <in>getbuf.c</in>
+        <in>getc.c</in>
+        <in>getitem.c</in>
+        <in>getmem.c</in>
+        <in>getpid.c</in>
+        <in>getprio.c</in>
+        <in>getstk.c</in>
+        <in>gettime.c</in>
+        <in>gpq.c</in>
+        <in>i386.c</in>
+        <in>init.c</in>
+        <in>initialize.c</in>
+        <in>insert.c</in>
+        <in>insertd.c</in>
+        <in>ioerr.c</in>
+        <in>ionull.c</in>
+        <in>kill.c</in>
+        <in>kprintf.c</in>
+        <in>kputc.c</in>
+        <in>main.c</in>
+        <in>main_bs_share_test.c</in>
+        <in>mark.c</in>
+        <in>mkpool.c</in>
+        <in>newqueue.c</in>
+        <in>open.c</in>
+        <in>panic.c</in>
+        <in>pci.c</in>
+        <in>poolinit.c</in>
+        <in>putc.c</in>
+        <in>queue.c</in>
+        <in>read.c</in>
+        <in>ready.c</in>
+        <in>receive.c</in>
+        <in>recvclr.c</in>
+        <in>recvtim.c</in>
+        <in>resched.c</in>
+        <in>resume.c</in>
+        <in>scount.c</in>
+        <in>screate.c</in>
+        <in>sdelete.c</in>
+        <in>send.c</in>
+        <in>setdev.c</in>
+        <in>setnok.c</in>
+        <in>signal.c</in>
+        <in>signaln.c</in>
+        <in>sleep.c</in>
+        <in>sleep10.c</in>
+        <in>sleep100.c</in>
+        <in>sleep1000.c</in>
+        <in>sreset.c</in>
+        <in>ssclock.c</in>
+        <in>stacktrace.c</in>
+        <in>suspend.c</in>
+        <in>testmain.c</in>
+        <in>unsleep.c</in>
+        <in>userret.c</in>
+        <in>wait.c</in>
+        <in>wakeup.c</in>
+        <in>write.c</in>
+        <in>xdone.c</in>
+      </df>
+      <df name="tty">
+        <in>ttyalloc.c</in>
+        <in>ttycntl.c</in>
+        <in>ttygetc.c</in>
+        <in>ttyiin.c</in>
+        <in>ttyinit.c</in>
+        <in>ttynew.c</in>
+        <in>ttyoin.c</in>
+        <in>ttyopen.c</in>
+        <in>ttyputc.c</in>
+        <in>ttyread.c</in>
+        <in>ttywrite.c</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>compile/Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>compile/Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>compile</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+      </makefileType>
+      <item path="com/comcntl.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="com/comgetc.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="com/comiin.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="com/cominit.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="com/cominput.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="com/comintr.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="com/comoutput.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="com/comread.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="config/lex.yy.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="config/y.tab.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <folder path="0/com">
+        <cTool>
+          <incDir>
+            <pElem>com</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/config">
+        <cTool>
+          <incDir>
+            <pElem>config</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/lib">
+        <cTool>
+          <incDir>
+            <pElem>lib/libxc</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/mon">
+        <cTool>
+          <incDir>
+            <pElem>mon</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/paging">
+        <cTool>
+          <incDir>
+            <pElem>paging</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/sys">
+        <cTool>
+          <incDir>
+            <pElem>sys</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/tty">
+        <cTool>
+          <incDir>
+            <pElem>tty</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <item path="lib/libxc/abs.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/atof.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/atoi.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/atol.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/bzero.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/ctype_.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/doprnt.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/doscan.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/ecvt.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/fgets.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/fprintf.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/fputs.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/gets.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/index.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/printf.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/puts.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/qsort.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/rand.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/rindex.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/scanf.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/sprintf.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/strcat.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/strchr.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/strcmp.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/strcpy.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/strlen.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/strncat.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/strncmp.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/strncpy.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="lib/libxc/swab.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/ethcmd.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/ethdemux.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/ethinit.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/ethintr.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/ethrom.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/ethwrite.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/ethwstrt.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/mon3com.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/monarp.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/monboot.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/monbootp.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/mongpq.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/monip.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/monitor.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/monnet.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/monpci.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/montftp.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/montimer.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="mon/monudp.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/bsm.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/control_reg.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/dump32.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/fifo.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/frame.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/frameutils.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/get_bs.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/lru.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/paging.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/pagingutils.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/pfint.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/policy.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/read_bs.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/release_bs.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/vcreate.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/vfreemem.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/vgetmem.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/write_bs.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="paging/xm.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/blkcmp.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/blkequ.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/chprio.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/clkinit.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/close.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/conf.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/control.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/create.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/evec.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/freebuf.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/freemem.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/getbuf.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/getc.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/getitem.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/getmem.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/getpid.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/getprio.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/getstk.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/gettime.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/gpq.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/i386.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/init.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/initialize.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/insert.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/insertd.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/ioerr.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/ionull.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/kill.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/kprintf.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/kputc.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/main.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/main_bs_share_test.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/mark.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/mkpool.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/newqueue.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/open.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/panic.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/pci.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/poolinit.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/putc.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/queue.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/read.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/ready.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/receive.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/recvclr.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/recvtim.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/resched.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/resume.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/scount.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/screate.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/sdelete.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/send.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/setdev.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/setnok.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/signal.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/signaln.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/sleep.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/sleep10.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/sleep100.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/sleep1000.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/sreset.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/ssclock.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/stacktrace.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/suspend.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/testmain.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/unsleep.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/userret.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/wait.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/wakeup.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/write.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="sys/xdone.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttyalloc.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttycntl.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttygetc.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttyiin.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttyinit.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttynew.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttyoin.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttyopen.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttyputc.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttyread.c" ex="false" tool="0" flavor2="2">
+      </item>
+      <item path="tty/ttywrite.c" ex="false" tool="0" flavor2="2">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
