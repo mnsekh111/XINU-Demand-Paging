@@ -25,20 +25,16 @@ unsigned nbytes;
         return NULL;
     }
     nbytes = (unsigned int) roundmb(nbytes);
-
-    
+    //kprintf("temp_vmemlist = 0x%x\n",temp_vmemlist);
+    //kprintf("temp_vmemlist->next = 0x%x\n",temp_vmemlist->mnext);
     for (q = temp_vmemlist, p = temp_vmemlist->mnext;
             p != (struct mblock *) NULL;
             q = p, p = p->mnext)
-        
-        // if num bytes required is same as the backing store size
         if (p->mlen == nbytes) {
             q->mnext = p->mnext;
             restore(ps);
             return ( (WORD *) p);
-        } 
-        //manage felt over memory in the store
-        else if (p->mlen > nbytes) {
+        } else if (p->mlen > nbytes) {
             leftover = (struct mblock *) ((unsigned) p + nbytes);
             q->mnext = leftover;
             leftover->mnext = p->mnext;

@@ -91,4 +91,18 @@ SYSCALL bsm_lookup(int pid, long vaddr, int* store, int* pageth) {
     return SYSERR;
 }
 
+/*-------------------------------------------------------------------------
+ * bsm_map - add an mapping into bsm_tab 
+ *-------------------------------------------------------------------------
+ */
+SYSCALL bsm_map(int pid, int vpno, int source, int npages) {
+}
+
+/*-------------------------------------------------------------------------
+ * bsm_unmap - delete an mapping from bsm_tab
+ *-------------------------------------------------------------------------
+ */
+SYSCALL bsm_unmap(int pid, int vpno, int flag) {
+}
+
 

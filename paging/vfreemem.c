@@ -20,35 +20,24 @@ unsigned size;
     struct mblock *p, *q;
     unsigned top;
 
-    struct mblock *vmemlist = proctab[currpid].vmemlist;
-    
-    //Check if the block of size (size) is within the heap range
-    
+    struct mblock *temp_vmemlist = proctab[currpid].vmemlist;
     if (size == 0 || (unsigned) block > (unsigned) (((proctab[currpid].vhpno)+(proctab[currpid].vhpnpages)) * NBPG)
             || ((unsigned) block)<((unsigned) (proctab[currpid].vhpno) * NBPG))
         return (SYSERR);
-    
-    
     size = (unsigned) roundmb(size);
     disable(ps);
-    
-    
-    for (p = vmemlist->mnext, q = vmemlist;
+    for (p = temp_vmemlist->mnext, q = temp_vmemlist;
             p != (struct mblock *) NULL && p < block;
             q = p, p = p->mnext)
         ;
-    
-    // check if memory is valid or not
-    if (((top = q->mlen + (unsigned) q)>(unsigned) block && q != vmemlist) ||
+    if (((top = q->mlen + (unsigned) q)>(unsigned) block && q != temp_vmemlist) ||
             (p != NULL && (size + (unsigned) block) > (unsigned) p)) {
         restore(ps);
         return (SYSERR);
     }
-    
-    // check if memory is available at the top of free list
-    if (q != vmemlist && top == (unsigned) block)
+    if (q != temp_vmemlist && top == (unsigned) block)
         q->mlen += size;
-    else { // place the block at the top or beginning.]
+    else {
         block->mlen = size;
         block->mnext = p;
         q->mnext = block;

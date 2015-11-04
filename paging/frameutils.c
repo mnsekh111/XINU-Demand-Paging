@@ -100,7 +100,7 @@ void remove_frames_for_kill(int pid) {
 
 }
 
-void update_age(int frameno) {
+void check_update_timecount(int frameno) {
     int i;
     STATWORD ps;
     disable(ps);
