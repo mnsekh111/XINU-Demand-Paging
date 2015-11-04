@@ -185,7 +185,7 @@ sysinit()
     for(i=0 ; i<NFRAMES ; i++)
 		init_frm(i);
 	init_bsm();
-	init_fifoqueue();
+	init_queue();
 	gtimecount = 0;
 
 	get_frm(&newframe_pd);

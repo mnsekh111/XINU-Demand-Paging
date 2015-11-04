@@ -1,5 +1,3 @@
-/* user.c - main */ 
- 
 #include <conf.h>
 #include <kernel.h>
 #include <proc.h>
@@ -65,20 +63,14 @@ void proc_test2(int i,int j,int* ret,int s) {
   int bsize;
   int r;
   bsize = get_bs(i, j);
-  if (bsize != 50){
-	  kprintf("4");
+  if (bsize != 50)
     *ret = TFAILED;
-  }
   r = xmmap(MYVPNO1, i, j);
-  if(r == SYSERR)
-	  kprintf("7");
   if (j<=50 && r == SYSERR){
-    kprintf("5");
-	*ret = TFAILED;
+     *ret = TFAILED;
   }
-  if (j> 50 && r == SYSERR){
-	  kprintf("6");
-    *ret = TFAILED;
+  if (j> 50 && r != SYSERR){
+	*ret = TFAILED;
   }
   sleep(s);
   if (r != SYSERR)
@@ -95,27 +87,20 @@ void test2() {
   kprintf("\nTest 2: Testing backing store operations\n");
 
   int bsize = get_bs(1, 100);
-  if (bsize != 100){
-	  kprintf("1");
+  if (bsize != 100)
     ret = TFAILED;
-  }
   release_bs(1);
   bsize = get_bs(1, 130);
-  if (bsize != SYSERR){
-	  kprintf("2");
+  if (bsize != SYSERR)
     ret = TFAILED;
-  }
   bsize = get_bs(1, 0);
-  if (bsize != SYSERR){
-	  kprintf("3");
+  if (bsize != SYSERR)
     ret = TFAILED;
-  }
 
   mypid = create(proc_test2, 2000, 20, "proc_test2", 4, 1,
                  50, &ret, 4);
   resume(mypid);
   sleep(2);
-  //kprintf("after sleep");
   for(i=1;i<=5;i++){
     pids[i] = create(proc_test2, 2000, 20, "proc_test2", 4, 1,
                      i*20, &ret, 0);
@@ -191,7 +176,7 @@ void proc1_test4(int* ret) {
   get_bs(MYBS1, 100);
 
   if (xmmap(MYVPNO1, MYBS1, 100) == SYSERR) {
-    //kprintf("xmmap call failed\n");
+    kprintf("xmmap call failed\n");
     *ret = TFAILED;
     sleep(3);
     return;
@@ -200,16 +185,13 @@ void proc1_test4(int* ret) {
   addr = (char*) MYVADDR1;
   for (i = 0; i < 26; i++) {
     *(addr + i * NBPG) = 'A' + i;
-	//kprintf("%c",*(addr + i * NBPG));
   }
   sleep(6);
 
   /*Shoud see what proc 2 updated*/
   for (i = 0; i < 26; i++) {
-	 // kprintf("%c",*(addr + i * NBPG));
     /*expected output is abcde.....*/
     if (*(addr + i * NBPG) != 'a'+i){
-		//kprintf("%c",*(addr + i * NBPG));
       *ret = TFAILED;
       break;    
     }
@@ -227,18 +209,15 @@ void proc2_test4(int *ret) {
 
   if (xmmap(MYVPNO2, MYBS1, 100) == SYSERR) {
     kprintf("xmmap call failed\n");
-	kprintf("failed\n");
     *ret = TFAILED;
     sleep(3);
     return;
   }
-  //kprintf("xmmap success");
 
   addr = (char*) MYVADDR2;
 
   /*Shoud see what proc 1 updated*/
   for (i = 0; i < 26; i++) {
-	  //kprintf("%c",*(addr + i * NBPG));
     /*expected output is ABCDEF.....*/
     if (*(addr + i * NBPG) != 'A'+i){
       *ret = TFAILED;
@@ -249,7 +228,6 @@ void proc2_test4(int *ret) {
   /*Update the content, proc1 should see it*/
   for (i = 0; i < 26; i++) {
     *(addr + i * NBPG) = 'a' + i;
-	//kprintf("%c",*(addr + i * NBPG));
   }
 
   xmunmap(MYVPNO2);
@@ -285,49 +263,46 @@ void proc1_test5(int* ret) {
 
   //kprintf("ready to allocate heap space\n");
   x = vgetmem(1024);
-  if ((x == NULL) || (x < 0x1000000)
+  if ((x == SYSERR) || (x < 0x1000000)
       || (x > 0x1000000 + 128 * NBPG - 1024)) {
-		  kprintf("1");
     *ret = TFAILED;
   }
-  if (x == NULL)
+  if (x == SYSERR)
     return;
 
   *x = 100;
   *(x + 1) = 200;
 
   if ((*x != 100) || (*(x+1) != 200)) {
-	  kprintf("4");
     *ret = TFAILED;
   }
   vfreemem(x, 1024);
 
   x = vgetmem(129*NBPG); //try to acquire a space that is bigger than size of one backing store
-  if (x != NULL) {
+  if (x != SYSERR) {
     *ret = TFAILED;
   }
 
   x = vgetmem(50*NBPG);
   y = vgetmem(50*NBPG);
   z = vgetmem(50*NBPG);
-  if ((x == NULL) || (y == NULL) || (z != NULL)){
+  if ((x == SYSERR) || (y == SYSERR) || (z != SYSERR)){
     *ret = TFAILED;
-    if (x != NULL) vfreemem(x, 50*NBPG);
-    if (y != NULL) vfreemem(y, 50*NBPG);
-    if (z != NULL) vfreemem(z, 50*NBPG);
+    if (x != SYSERR) vfreemem(x, 50*NBPG);
+    if (y != SYSERR) vfreemem(y, 50*NBPG);
+    if (z != SYSERR) vfreemem(z, 50*NBPG);
     return;
   }
   vfreemem(y, 50*NBPG);
   z = vgetmem(50*NBPG);
-  if (z == NULL){
+  if (z == SYSERR){
     *ret = TFAILED;
   }
-  if (x != NULL) vfreemem(x, 50*NBPG);
-  if (z != NULL) vfreemem(z, 50*NBPG);
+  if (x != SYSERR) vfreemem(x, 50*NBPG);
+  if (z != SYSERR) vfreemem(z, 50*NBPG);
   return;
-
-
 }
+
 void test5() {
   int pid1;
   int ret = TPASSED;
@@ -364,7 +339,7 @@ void proc1_test6(int *ret) {
     get_bs(i, 100);
     if (xmmap(vpno, i, 100) == SYSERR) {
       *ret = TFAILED;
-      kprintf("xmmap call failed id = %d\n",i);
+      kprintf("xmmap call failed\n");
       sleep(3);
       return;
     }
@@ -401,6 +376,7 @@ void test6(){
   else
     kprintf("\tPASSED!\n");
 }
+
 /*-------------------------------------------------------------------------------------*/
 void test_func7()
 {
@@ -452,16 +428,16 @@ void test_func7()
     kprintf("BB 0x%08x: %d\n", 1032 * NBPG, *((int *)(1032 * NBPG)));
   }
   
-   
-  for(i=1; i <= maxpage; i++) 
-  { 
-    if ((i != 600) && (i != 800)) 
-      *((int *)addrs[i])= i+1; 
+  
+  for(i=1; i <= maxpage; i++)
+  {
+    if ((i != 600) && (i != 800))
+      *((int *)addrs[i])= i+1;
   }
-   
-  kprintf("\n\t7.2 Expected replaced frame: 1033\n\t"); 
-  *((int *)addrs[maxpage+1]) = maxpage + 2;  
-  temp = *((int *)addrs[maxpage+1]); 
+  
+  kprintf("\n\t7.2 Expected replaced frame: 1033\n\t");
+  *((int *)addrs[maxpage+1]) = maxpage + 2; 
+  temp = *((int *)addrs[maxpage+1]);
   if (temp != *((int *)(1033 * NBPG))) {
     kprintf("\tFAILED!\n");
     kprintf("AA 0x%08x: %d\n", (int *)addrs[maxpage], *((int *)addrs[maxpage]));
@@ -627,6 +603,7 @@ void test8(){
   kill(pid1);
   kprintf("\n\tFinished! Check error and replaced frames\n");
 }
+
 int main() {
   kprintf("\n\nHello World, Xinu lives\n\n");
  
@@ -637,7 +614,9 @@ int main() {
   test4();
   test5();
   test6();
+
   test7();
   test8();
   return 0;
 }
+

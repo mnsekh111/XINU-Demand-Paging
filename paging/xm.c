@@ -19,6 +19,13 @@ SYSCALL xmmap(int virtpage, bsd_t source, int npages) {
         restore(ps);
         return SYSERR;
     } else {
+	if(bsm_tab[source].bs_status == BSM_MAPPED){
+		if(bsm_tab[source].bs_npages < npages){
+			restore(ps);
+			return SYSERR;
+		}
+	}
+
         struct bs_proc_map_t *bs = (struct bs_proc_map_t*) getmem(sizeof (struct bs_proc_map_t));
         bs->pid = currpid;
         proctab[currpid].bstab[source] = (struct bs_map_t *) &bsm_tab[source];
@@ -49,7 +56,7 @@ SYSCALL xmunmap(int virtpage) {
         temp = bsm_tab[i].mapping;
         while (temp != NULL) {
             if (temp->pid == currpid && temp->vpageno == virtpage && temp == bsm_tab[i].mapping) {
-                if (remove_frames_for_xmunmap(i) == SYSERR) {
+                if (unmap_frames(i) == SYSERR) {
                     restore(ps);
                     return SYSERR;
                 }

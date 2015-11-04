@@ -63,21 +63,15 @@ typedef struct {
     unsigned int pd_offset : 10; /* page directory offset	*/
 } virt_addr_t;
 
-#if 0
-
-typedef struct {
-    int bs_status; /* MAPPED or UNMAPPED		*/
-    int bs_pid; /* process id using this slot   */
-    int bs_vpno; /* starting virtual page number */
-    int bs_npages; /* number of pages in the store */
-    int bs_sem; /* semaphore mechanism ?	*/
-} bs_map_t;
-#endif
-
 struct bs_proc_map_t {
     int pid;
     unsigned int vpageno;
     struct bs_proc_map_t *next;
+};
+
+struct fifoqueue {
+    int fn;
+    struct fifoqueue *nextf;
 };
 
 typedef struct {
@@ -90,10 +84,10 @@ typedef struct {
 typedef struct {
     int fr_status; /* MAPPED or UNMAPPED		*/
     int fr_pid; /* process id using this frame  */
-    int fr_curr_bs;
-    struct bs_map_t *fr_bs_list; /* If multiple process access same page in a backing store, keep track of them here */
+    int fr_curr_bs; /* current bs using this frame*/
+    struct bs_map_t *fr_bs_list; /*to keep track of multiple bs using this frame */
     int fr_vpno[NPROC]; /* corresponding virtual page no*/
-    int fr_curr_page; /* If a frame is shared among multiple process to access the same page in a particular BS */
+    int fr_curr_page; /* curr page in the frame */
     int fr_refcnt; /* reference count		*/
     int fr_type; /* FR_DIR, FR_TBL, FR_PAGE	*/
     int fr_dirty;
@@ -101,20 +95,17 @@ typedef struct {
     unsigned long int fr_loadtime; /* when the page is loaded 	*/
 } fr_map_t;
 
-struct track_PT {
-    int framenumber;
-    struct track_PT *nextPT;
+struct fr_list {
+    int fn;
+    struct fr_list *next;
 };
 
-struct fifoqueue {
-    int framenumber;
-    struct fifoqueue *nextf;
-};
+
 
 extern bs_map_t bsm_tab[NBS];
 extern fr_map_t frm_tab[NFRAMES];
 
-extern int LRU_nextframe();
+extern int next_frame();
 
 /* Prototypes for required API calls */
 SYSCALL xmmap(int, bsd_t, int);

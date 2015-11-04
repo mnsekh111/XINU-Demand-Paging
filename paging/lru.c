@@ -15,7 +15,7 @@ int max_vpn(int fr) {
 
 }
 
-int LRU_nextframe() {
+int next_frame() {
     int i;
     int min = gtimecount, max = 0;
     int max_vp = 0, lru_frame = -1;

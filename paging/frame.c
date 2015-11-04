@@ -66,7 +66,7 @@ SYSCALL get_frm(int* avail) {
         //  kprintf("Ran out of free frames\n");
         //indicates that we ran out of free frames. Implement page replacement policy and return a new frame as per the page replacement policy
         if (page_replace_policy == LRU) {
-            *avail = LRU_nextframe();
+            *avail = next_frame();
             //kprintf("get_frm returned %d\n",*avail);
         } else {
             *avail = getframe_fifoqueue();

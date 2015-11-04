@@ -16,7 +16,7 @@ SYSCALL srpolicy(int policy) {
     disable(ps);
     if (policy == FIFO) {
         page_replace_policy = FIFO;
-        init_fifoqueue();
+        init_queue();
     } else if (policy == LRU)
         page_replace_policy = LRU;
 

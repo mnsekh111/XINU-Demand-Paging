@@ -6,7 +6,7 @@
 struct fifoqueue *head;
 struct fifoqueue *tail;
 
-void init_fifoqueue() {
+void init_queue() {
     STATWORD ps;
     disable(ps);
     head = NULL;
@@ -14,11 +14,11 @@ void init_fifoqueue() {
     restore(ps);
 }
 
-void addentry_fifoqueue(int frame) {
+void push_queue(int frame) {
     STATWORD ps;
     disable(ps);
     struct fifoqueue *temp = (struct fifoqueue*) getmem(sizeof (struct fifoqueue));
-    temp->framenumber = frame;
+    temp->fn = frame;
     temp->nextf = NULL;
     if (head == NULL && tail == NULL) {
         head = temp;
@@ -35,7 +35,7 @@ int getframe_fifoqueue() {
     STATWORD ps;
     disable(ps);
     if (head != NULL) {
-        int frame = head->framenumber;
+        int frame = head->fn;
         struct fifoqueue *tem = head;
         head = head->nextf;
         freemem(tem, sizeof (struct fifoqueue));
@@ -47,28 +47,3 @@ int getframe_fifoqueue() {
     }
 }
 
-void update_frame_tohead_fifoqueue(int frame) {
-    STATWORD ps;
-    disable(ps);
-    struct fifoqueue *test = head;
-    if (head->framenumber == frame) {
-        head = head->nextf;
-        tail->nextf = test;
-        tail = test;
-        test->nextf = NULL;
-        restore(ps);
-        return;
-    }
-    while (test->nextf != NULL) {
-        if (test->nextf->framenumber == frame) {
-            tail->nextf = test->nextf;
-            tail = tail->nextf;
-            test->nextf = test->nextf->nextf;
-            tail->nextf = NULL;
-            restore(ps);
-            return;
-        }
-        test = test->nextf;
-    }
-    restore(ps);
-}

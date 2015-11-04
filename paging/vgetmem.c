@@ -22,7 +22,7 @@ unsigned nbytes;
     struct mblock *temp_vmemlist = proctab[currpid].vmemlist;
     if (nbytes == 0 || temp_vmemlist->mnext == (struct mblock *) NULL) {
         restore(ps);
-        return NULL;
+        return SYSERR;
     }
     nbytes = (unsigned int) roundmb(nbytes);
 
@@ -47,7 +47,7 @@ unsigned nbytes;
             return ( (WORD *) p);
         }
     restore(ps);
-    return NULL;
+    return SYSERR;
 }
 
 

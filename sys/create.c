@@ -68,21 +68,21 @@ SYSCALL create(procaddr,ssize,priority,name,nargs,args)
 	pptr->pnxtkin = BADPID;
 	pptr->pdevs[0] = pptr->pdevs[1] = pptr->ppagedev = BADDEV;
 
-	//kprintf("\ncreating pid = %d\n", pid);
-/* for paging */
+
+
 	get_frm(&new_frame);
-	//kprintf("For PID = %d, PD frame = %d\n",pid,new_frame);
+
 	frm_tab[new_frame].fr_type = FR_DIR;
 	frm_tab[new_frame].fr_pid = pid;
 
 	pptr->pdbr = (new_frame+FRAME0) * NBPG;
-	pd_t *ptr5 = pptr->pdbr;
-	pd_t *ptr6 = proctab[NULLPROC].pdbr;
-/* Add global inner 4 page tables */
+	pd_t *proc_dir = pptr->pdbr;
+	pd_t *null_proc_dir = proctab[NULLPROC].pdbr;
+
 	for(i=0 ; i<4 ; i++){
-		add_page_dir(ptr5,ptr6->pd_base,new_frame);
-		ptr5++;
-		ptr6++;
+		add_page_dir(proc_dir,null_proc_dir->pd_base,new_frame);
+		proc_dir++;
+		null_proc_dir++;
 	}
 
 	for(i=0 ; i<NBS ; i++){
