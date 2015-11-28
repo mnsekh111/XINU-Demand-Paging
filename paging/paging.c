@@ -64,6 +64,7 @@ void init_global_pg_tab() {
 
 		for (j = 0; j < NBPG / 4; j++) { // Size of each entry is 32 bit or 4 bytes
 			init_pt_entry(tab_entry);
+
 			tab_entry->pt_base = (i*NBPG / 4)+j;
 			frm_tab[new_frame_pt].fr_refcnt++;
 
