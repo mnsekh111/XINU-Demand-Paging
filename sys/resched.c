@@ -24,7 +24,8 @@ int	resched()
 
 	disable(PS);
 	/* no switch needed if current process priority higher than next*/
-
+	//if(getlastproc(rdytail)>=0)
+	//kprintf("%d\n",getlastproc(rdytail));
 	if ( ( (optr= &proctab[currpid])->pstate == PRCURR) &&
 	   (lastkey(rdytail)<optr->pprio)) {
 		restore(PS);
@@ -82,7 +83,9 @@ int	resched()
 #ifdef	DEBUG
 	PrintSaved(nptr);
 #endif
-	
+
+	write_cr3(nptr->pdbr&0xFFFFF000);
+//kprintf("context switch to %d\n",currpid);
 	ctxsw(&optr->pesp, optr->pirmask, &nptr->pesp, nptr->pirmask);
 
 #ifdef	DEBUG

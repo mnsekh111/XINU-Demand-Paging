@@ -13,7 +13,8 @@
  */
 SYSCALL	sleep(int n)
 {
-	STATWORD ps;    
+	STATWORD ps;   
+		//kprintf("going to sleep in pid  %d\n",currpid);
 	if (n<0 || clkruns==0)
 		return(SYSERR);
 	if (n == 0) {

@@ -7,16 +7,47 @@
 #include <paging.h>
 
 extern struct pentry proctab[];
+
 /*------------------------------------------------------------------------
  * vgetmem  --  allocate virtual heap storage, returning lowest WORD address
  *------------------------------------------------------------------------
  */
-WORD	*vgetmem(nbytes)
-	unsigned nbytes;
+WORD *vgetmem(nbytes)
+unsigned nbytes;
 {
+    STATWORD ps;
+    struct mblock *p, *q, *leftover;
 
-	kprintf("To be implemented!\n");
-	return( SYSERR );
+    disable(ps);
+    struct mblock *temp_vmemlist = proctab[currpid].vmemlist;
+    if (nbytes == 0 || temp_vmemlist->mnext == (struct mblock *) NULL) {
+        restore(ps);
+        return NULL;
+    }
+    nbytes = (unsigned int) roundmb(nbytes);
+
+    
+    for (q = temp_vmemlist, p = temp_vmemlist->mnext;
+            p != (struct mblock *) NULL;
+            q = p, p = p->mnext)
+        
+        // if num bytes required is same as the backing store size
+        if (p->mlen == nbytes) {
+            q->mnext = p->mnext;
+            restore(ps);
+            return ( (WORD *) p);
+        } 
+        //manage felt over memory in the store
+        else if (p->mlen > nbytes) {
+            leftover = (struct mblock *) ((unsigned) p + nbytes);
+            q->mnext = leftover;
+            leftover->mnext = p->mnext;
+            leftover->mlen = p->mlen - nbytes;
+            restore(ps);
+            return ( (WORD *) p);
+        }
+    restore(ps);
+    return NULL;
 }
 
 

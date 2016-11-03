@@ -18,38 +18,38 @@
 #define	HOLEEND		((1024 + HOLESIZE) * 1024)  
 /* Extra 600 for bootp loading, and monitor */
 
-extern int main(); /* address of user's main prog	*/
+extern	int	main();	/* address of user's main prog	*/
 
-extern int start();
+extern	int	start();
 
-LOCAL sysinit();
+LOCAL		sysinit();
 
 /* Declarations of major kernel variables */
-struct pentry proctab[NPROC]; /* process table			*/
-int nextproc; /* next process slot to use in create	*/
-struct sentry semaph[NSEM]; /* semaphore table			*/
-int nextsem; /* next sempahore slot to use in screate*/
-struct qent q[NQENT]; /* q table (see queue.c)		*/
-int nextqueue; /* next slot in q structure to use	*/
-char *maxaddr; /* max memory address (set by sizmem)	*/
-struct mblock memlist; /* list of free memory blocks		*/
+struct	pentry	proctab[NPROC]; /* process table			*/
+int	nextproc;		/* next process slot to use in create	*/
+struct	sentry	semaph[NSEM];	/* semaphore table			*/
+int	nextsem;		/* next sempahore slot to use in screate*/
+struct	qent	q[NQENT];	/* q table (see queue.c)		*/
+int	nextqueue;		/* next slot in q structure to use	*/
+char	*maxaddr;		/* max memory address (set by sizmem)	*/
+struct	mblock	memlist;	/* list of free memory blocks		*/
 #ifdef	Ntty
-struct tty tty[Ntty]; /* SLU buffers and mode control		*/
+struct  tty     tty[Ntty];	/* SLU buffers and mode control		*/
 #endif
 
+fr_map_t frm_tab[NFRAMES]; /* frames table */
+bs_map_t bsm_tab[NBS];
 /* active system status */
-int numproc; /* number of live user processes	*/
-int currpid; /* id of currently running process	*/
-int reboot = 0; /* non-zero after first boot		*/
-
-int rdyhead, rdytail; /* head/tail of ready list (q indicies)	*/
-char vers[80];
-int console_dev; /* the console device			*/
+int	numproc;		/* number of live user processes	*/
+int	currpid;		/* id of currently running process	*/
+int	reboot = 0;		/* non-zero after first boot		*/
+unsigned long int gtimecount;
+int	rdyhead,rdytail;	/* head/tail of ready list (q indicies)	*/
+char 	vers[80];
+int	console_dev;		/* the console device			*/
 
 /*  added for the demand paging */
 int page_replace_policy = FIFO;
-fr_map_t frm_tab[NFRAMES]; /* frames table */
-bs_map_t bsm_tab[NBS]; /* backing store map */
 
 /************************************************************************/
 /***				NOTE:				      ***/
@@ -69,18 +69,18 @@ bs_map_t bsm_tab[NBS]; /* backing store map */
  *  nulluser  -- initialize system and become the null process (id==0)
  *------------------------------------------------------------------------
  */
-nulluser() /* babysit CPU when no one is home */
+nulluser()				/* babysit CPU when no one is home */
 {
-	int userpid;
-
-	console_dev = SERIAL0; /* set console to COM0 */
+        int userpid;
+	unsigned long cr0_regvalue;
+	console_dev = SERIAL0;		/* set console to COM0 */
 
 	initevec();
 
 	kprintf("system running up!\n");
 	sysinit();
 
-	enable(); /* enable interrupts */
+	enable();		/* enable interrupts */
 
 	sprintf(vers, "PC Xinu %s", VERSION);
 	kprintf("\n\n%s\n", vers);
@@ -89,14 +89,16 @@ nulluser() /* babysit CPU when no one is home */
 	else
 		kprintf("   (reboot %d)\n", reboot);
 
-	kprintf("%d bytes real mem\n", (unsigned long) maxaddr + 1);
+
+	kprintf("%d bytes real mem\n",
+		(unsigned long) maxaddr+1);
 #ifdef DETAIL	
 	kprintf("    %d", (unsigned long) 0);
 	kprintf(" to %d\n", (unsigned long) (maxaddr) );
 #endif	
 
 	kprintf("%d bytes Xinu code\n",
-			(unsigned long) ((unsigned long) &end - (unsigned long) start));
+		(unsigned long) ((unsigned long) &end - (unsigned long) start));
 #ifdef DETAIL	
 	kprintf("    %d", (unsigned long) start);
 	kprintf(" to %d\n", (unsigned long) &end );
@@ -104,19 +106,23 @@ nulluser() /* babysit CPU when no one is home */
 
 #ifdef DETAIL	
 	kprintf("%d bytes user stack/heap space\n",
-			(unsigned long) ((unsigned long) maxaddr - (unsigned long) &end));
+		(unsigned long) ((unsigned long) maxaddr - (unsigned long) &end));
 	kprintf("    %d", (unsigned long) &end);
 	kprintf(" to %d\n", (unsigned long) maxaddr);
 #endif	
+	
+	kprintf("clock %sabled\n", clkruns == 1?"en":"dis");
 
-	kprintf("clock %sabled\n", clkruns == 1 ? "en" : "dis");
-
-	/***************************************/
-	enable_paging(); // Writing proper registers
-	/***************************************/
-
+	write_cr3(proctab[0].pdbr&0xFFFFF000);
+	//kprintf("read cr3 0x%x\n",read_cr3());
+	cr0_regvalue = read_cr0();
+	//kprintf("cr0_regvalue = 0x%8x\n", cr0_regvalue);
+	cr0_regvalue = cr0_regvalue | 0x80000001;
+	//kprintf("cr0_regvalue = 0x%8x\n", cr0_regvalue);
+	write_cr0(cr0_regvalue);
+	
 	/* create a process to execute the user's main program */
-	userpid = create(main, INITSTK, INITPRIO, INITNAME, INITARGS);
+	userpid = create(main,INITSTK,INITPRIO,INITNAME,INITARGS);
 	resume(userpid);
 
 	while (TRUE)
@@ -126,119 +132,151 @@ nulluser() /* babysit CPU when no one is home */
 /*------------------------------------------------------------------------
  *  sysinit  --  initialize all Xinu data structeres and devices
  *------------------------------------------------------------------------
- */LOCAL sysinit() {
-	static long currsp;
-	int i, j;
-	struct pentry *pptr;
-	struct sentry *sptr;
-	struct mblock *mptr;
+ */
+LOCAL
+sysinit()
+{
+	static	long	currsp;
+	int	i,j;
+	struct	pentry	*pptr;
+	struct	sentry	*sptr;
+	struct	mblock	*mptr;
+	
+	pt_t *ptr;
+	pd_t *ptr_pd;
+	int new_frame, newframe_pd;
 	SYSCALL pfintr();
+	
+    set_evec(14,pfintr); /* Registering ISR for page fault */
 
-	/******************************************************/
-	set_evec(14, pfintr); // Registering page fault handler
-	/******************************************************/
-
-	numproc = 0; /* initialize system variables */
-	nextproc = NPROC - 1;
-	nextsem = NSEM - 1;
-	nextqueue = NPROC; /* q[0..NPROC-1] are processes */
+	numproc = 0;			/* initialize system variables */
+	nextproc = NPROC-1;
+	nextsem = NSEM-1;
+	nextqueue = NPROC;		/* q[0..NPROC-1] are processes */
 
 	/* initialize free memory list */
 	/* PC version has to pre-allocate 640K-1024K "hole" */
-	if (maxaddr + 1 > HOLESTART) {
+	if (maxaddr+1 > HOLESTART) {
 		memlist.mnext = mptr = (struct mblock *) roundmb(&end);
-		mptr->mnext = (struct mblock *) HOLEEND;
+		mptr->mnext = (struct mblock *)HOLEEND;
 		mptr->mlen = (int) truncew(((unsigned) HOLESTART -
-						(unsigned)&end));
-		mptr->mlen -= 4;
+	     		 (unsigned)&end));
+        mptr->mlen -= 4;
 
 		mptr = (struct mblock *) HOLEEND;
 		mptr->mnext = 0;
 		mptr->mlen = (int) truncew((unsigned)maxaddr - HOLEEND -
-				NULLSTK);
-		/*
-		 mptr->mlen = (int) truncew((unsigned)maxaddr - (4096 - 1024 ) *  4096 - HOLEEND - NULLSTK);
-		 */
+	      		NULLSTK);
+/*
+		mptr->mlen = (int) truncew((unsigned)maxaddr - (4096 - 1024 ) *  4096 - HOLEEND - NULLSTK);
+*/
 	} else {
 		/* initialize free memory list */
 		memlist.mnext = mptr = (struct mblock *) roundmb(&end);
 		mptr->mnext = 0;
 		mptr->mlen = (int) truncew((unsigned)maxaddr - (int)&end -
-				NULLSTK);
+			NULLSTK);
 	}
+	
 
-	for (i = 0; i < NPROC; i++) /* initialize process table */
+	for (i=0 ; i<NPROC ; i++)	/* initialize process table */
 		proctab[i].pstate = PRFREE;
 
-	/********************************/
-
-	init_frm();
+    for(i=0 ; i<NFRAMES ; i++)
+		init_frm(i);
 	init_bsm();
-	init_global_pg_tab();
+	init_fifoqueue();
+	gtimecount = 0;
 
-	/********************************/
-
+	get_frm(&newframe_pd);
+	//kprintf("newframe_pd = %d\n", newframe_pd);
+	frm_tab[newframe_pd].fr_type = FR_DIR;
+	ptr_pd = (pd_t*)((newframe_pd+FRAME0) * NBPG);
+	for(j=0 ; j<4; j++){
+		get_frm(&new_frame);
+		frm_tab[new_frame].fr_type = FR_TBL;
+		//kprintf("new_frame = %d\n", new_frame);
+		ptr = (pt_t *)((new_frame+FRAME0) * NBPG);
+		for(i=0 ; i<(NBPG/4) ; i++){
+			add_page_tab(ptr, i+(j*(NBPG/4)),new_frame);
+		//	if(i<10 || i>1013)
+			//	kprintf("i+(j*(NBPG/4)) = %d, ptr->pt_base = %d\n",i+(j*(NBPG/4)), ptr->pt_base);
+			ptr++;
+		}
+		//kprintf("frm_tab[new_frame].fr_refcnt = %d\n",frm_tab[new_frame].fr_refcnt);
+		add_page_dir(ptr_pd, new_frame+FRAME0,newframe_pd);
+		//kprintf("j = %d, ptr_pd->pd_base = %d\n",j, ptr_pd->pd_base);
+		ptr_pd++;
+	}
+//	kprintf("frm_tab[new_frame].fr_refcnt = %d\n",frm_tab[newframe_pd].fr_refcnt);
 #ifdef	MEMMARK
-	_mkinit(); /* initialize memory marking */
+	_mkinit();			/* initialize memory marking */
 #endif
 
 #ifdef	RTCLOCK
-	clkinit(); /* initialize r.t.clock	*/
+	clkinit();			/* initialize r.t.clock	*/
 #endif
 
-	mon_init(); /* init monitor */
+	mon_init();     /* init monitor */
 
 #ifdef NDEVS
-	for (i = 0; i < NDEVS; i++) {
-		init_dev(i);
+	for (i=0 ; i<NDEVS ; i++ ) {	    
+	    init_dev(i);
 	}
 #endif
 
-	pptr = &proctab[NULLPROC]; /* initialize null process entry */
+	pptr = &proctab[NULLPROC];	/* initialize null process entry */
 	pptr->pstate = PRCURR;
-	for (j = 0; j < 7; j++)
+	for (j=0; j<7; j++)
 		pptr->pname[j] = "prnull"[j];
-	pptr->plimit = (WORD) (maxaddr + 1) - NULLSTK;
+	pptr->plimit = (WORD)(maxaddr + 1) - NULLSTK;
 	pptr->pbase = (WORD) maxaddr - 3;
-	/*
-	 pptr->plimit = (WORD)(maxaddr + 1) - NULLSTK - (4096 - 1024 )*4096;
-	 pptr->pbase = (WORD) maxaddr - 3 - (4096-1024)*4096;
-	 */
-	pptr->pesp = pptr->pbase - 4; /* for stkchk; rewritten before used */
-	*((int *) pptr->pbase) = MAGIC;
+/*
+	pptr->plimit = (WORD)(maxaddr + 1) - NULLSTK - (4096 - 1024 )*4096;
+	pptr->pbase = (WORD) maxaddr - 3 - (4096-1024)*4096;
+*/
+	pptr->pesp = pptr->pbase-4;	/* for stkchk; rewritten before used */
+	*( (int *)pptr->pbase ) = MAGIC;
 	pptr->paddr = (WORD) nulluser;
 	pptr->pargs = 0;
 	pptr->pprio = 0;
 	currpid = NULLPROC;
 
-	pptr->pdbr = (0 + FRAME0) * NBPG;
-	pptr->store = -1;
-	pptr->vhpno = -1;
-	pptr->vhpnpages = -1;
-	pptr->vmemlist = NULL;
+/* Paging */
+	pptr->pdbr = (newframe_pd+FRAME0) * NBPG;
+	for(i=0 ; i<NBS ; i++){
+		pptr->bstab[i] = NULL;
+		pptr->store = -1;
+		pptr->vhpno = -1;
+		pptr->vhpnpages = -1;
+		pptr->vmemlist = NULL;
+	}
 
-	for (i = 0; i < NSEM; i++) { /* initialize semaphores */
+	for (i=0 ; i<NSEM ; i++) {	/* initialize semaphores */
 		(sptr = &semaph[i])->sstate = SFREE;
 		sptr->sqtail = 1 + (sptr->sqhead = newqueue());
 	}
 
-	rdytail = 1 + (rdyhead = newqueue());/* initialize ready list */
+	rdytail = 1 + (rdyhead=newqueue());/* initialize ready list */
 
-	return (OK);
+	return(OK);
 }
 
 stop(s)
-	char *s; {
+char	*s;
+{
 	kprintf("%s\n", s);
 	kprintf("looping... press reset\n");
-	while (1)
+	while(1)
 		/* empty */;
 }
 
 delay(n)
-	int n; {
+int	n;
+{
 	DELAY(n);
 }
+
 
 #define	NBPG	4096
 
@@ -246,14 +284,15 @@ delay(n)
  * sizmem - return memory size (in pages)
  *------------------------------------------------------------------------
  */
-long sizmem() {
-	unsigned char *ptr, *start, stmp, tmp;
-	int npages;
+long sizmem()
+{
+	unsigned char	*ptr, *start, stmp, tmp;
+	int		npages;
 
 	/* at least now its hacked to return
-	 the right value for the Xinu lab backends (16 MB) */
+	   the right value for the Xinu lab backends (16 MB) */
 
-	return 4096;
+	return 4096; 
 
 	start = ptr = 0;
 	npages = 0;
@@ -266,11 +305,10 @@ long sizmem() {
 		*ptr = tmp;
 		++npages;
 		ptr += NBPG;
-		if ((int) ptr == HOLESTART) { /* skip I/O pages */
-			npages += (1024 - 640) / 4;
-			ptr = (unsigned char *) HOLEEND;
+		if ((int)ptr == HOLESTART) {	/* skip I/O pages */
+			npages += (1024-640)/4;
+			ptr = (unsigned char *)HOLEEND;
 		}
 	}
 	return npages;
 }
-

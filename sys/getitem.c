@@ -33,3 +33,13 @@ int getlast(int tail)
 	else
 		return(EMPTY);
 }
+
+int getlastproc(int tail)
+{
+	int	proc;			/* last process on the list	*/
+
+	if ((proc=q[tail].qprev) < NPROC)
+		return proc;
+	else
+		return(EMPTY);
+}

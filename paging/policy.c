@@ -6,24 +6,28 @@
 
 
 extern int page_replace_policy;
+
 /*-------------------------------------------------------------------------
  * srpolicy - set page replace policy 
  *-------------------------------------------------------------------------
  */
-SYSCALL srpolicy(int policy)
-{
-  /* sanity check ! */
+SYSCALL srpolicy(int policy) {
+    STATWORD ps;
+    disable(ps);
+    if (policy == FIFO) {
+        page_replace_policy = FIFO;
+        init_fifoqueue();
+    } else if (policy == LRU)
+        page_replace_policy = LRU;
 
-  kprintf("To be implemented!\n");
-
-  return OK;
+    restore(ps);
+    return OK;
 }
 
 /*-------------------------------------------------------------------------
  * grpolicy - get page replace policy 
  *-------------------------------------------------------------------------
  */
-SYSCALL grpolicy()
-{
-  return page_replace_policy;
+SYSCALL grpolicy() {
+    return page_replace_policy;
 }

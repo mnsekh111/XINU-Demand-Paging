@@ -220,18 +220,18 @@ LOCAL	_prt10(num,str)
 	char	*str;
 {
 	int	i;
-	char	c, temp[6];
+	char	c, head[6];
 
-	temp[0]	= '\0';
+	head[0]	= '\0';
 	for(i = 1; i <= 5; i++)  {
-		temp[i] = num % 10 + '0';
+		head[i] = num % 10 + '0';
 		num /= 10;
 	}
-	for(i =	5; temp[i] == '0'; i--);
+	for(i =	5; head[i] == '0'; i--);
 	if( i == 0 )
 		i++;
 	while( i >= 0 )
-		*str++ = temp[i--];
+		*str++ = head[i--];
 }
 
 LOCAL	_prtl10(num,str)
@@ -239,18 +239,18 @@ LOCAL	_prtl10(num,str)
 	char	*str;
 {
 	int	i;
-	char	c, temp[11];
+	char	c, head[11];
 
-	temp[0]	= '\0';
+	head[0]	= '\0';
 	for(i = 1; i <= 10; i++)  {
-		temp[i] = num % 10 + '0';
+		head[i] = num % 10 + '0';
 		num /= 10;
 	}
-	for(i = 10; temp[i] == '0'; i--);
+	for(i = 10; head[i] == '0'; i--);
 	if( i == 0 )
 		i++;
 	while( i >= 0 )
-		*str++ = temp[i--];
+		*str++ = head[i--];
 }
 
 LOCAL	_prt8(num,str)
@@ -259,19 +259,19 @@ LOCAL	_prt8(num,str)
 {
 	int	i;
 	char	c;
-	char	temp[7];
+	char	head[7];
 
-	temp[0]	= '\0';
+	head[0]	= '\0';
 	for(i = 1; i <= 6; i++)  {
-		temp[i]	= (num & 07) + '0';
+		head[i]	= (num & 07) + '0';
 		num = (num >> 3) & 0037777;
 	}
-	temp[6] &= '1';
-	for(i = 6; temp[i] == '0'; i--);
+	head[6] &= '1';
+	for(i = 6; head[i] == '0'; i--);
 	if( i == 0 )
 		i++;
 	while( i >= 0 )
-		*str++ = temp[i--];
+		*str++ = head[i--];
 }
 
 LOCAL	_prtl8(num,str)
@@ -279,19 +279,19 @@ LOCAL	_prtl8(num,str)
 	char	*str;
 {
 	int	i;
-	char	c, temp[12];
+	char	c, head[12];
 
-	temp[0]	= '\0';
+	head[0]	= '\0';
 	for(i = 1; i <= 11; i++)  {
-		temp[i]	= (num & 07) + '0';
+		head[i]	= (num & 07) + '0';
 		num = num >> 3;
 	}
-	temp[11] &= '3';
-	for(i = 11; temp[i] == '0'; i--);
+	head[11] &= '3';
+	for(i = 11; head[i] == '0'; i--);
 	if( i == 0 )
 		i++;
 	while( i >= 0 )
-		*str++ = temp[i--];
+		*str++ = head[i--];
 }
 
 LOCAL	_prt16(num,str)
@@ -299,18 +299,18 @@ LOCAL	_prt16(num,str)
 	char	*str;
 {
 	int	i;
-	char	c, temp[5];
+	char	c, head[5];
 
-	temp[0] = '\0';
+	head[0] = '\0';
 	for(i = 1; i <= 4; i++)  {
-		temp[i] = "0123456789abcdef"[num & 0x0f];
+		head[i] = "0123456789abcdef"[num & 0x0f];
 		num = num >> 4;
 	}
-	for(i = 4; temp[i] == '0'; i--);
+	for(i = 4; head[i] == '0'; i--);
 	if( i == 0 )
 		i++;
 	while( i >= 0 )
-		*str++ = temp[i--];
+		*str++ = head[i--];
 }
 
 LOCAL	_prtl16(num,str)
@@ -318,18 +318,18 @@ LOCAL	_prtl16(num,str)
 	char	*str;
 {
 	int	i;
-	char	c, temp[9];
+	char	c, head[9];
 
-	temp[0] = '\0';
+	head[0] = '\0';
 	for(i = 1; i <= 8; i++)  {
-		temp[i] = "0123456789abcdef"[num & 0x0f];
+		head[i] = "0123456789abcdef"[num & 0x0f];
 		num = num >> 4;
 	}
-	for(i = 8; temp[i] == '0'; i--);
+	for(i = 8; head[i] == '0'; i--);
 	if( i == 0 )
 		i++;
 	while( i >= 0 )
-		*str++ = temp[i--];
+		*str++ = head[i--];
 }
 
 
@@ -339,18 +339,18 @@ LOCAL	_prt2(num,str)
 	char	*str;
 {
 	int	i;
-	char	c, temp[17];
+	char	c, head[17];
 
-	temp[0] = '\0';
+	head[0] = '\0';
 	for(i = 1; i <= 16; i++)  {
-		temp[i] = ((num%2) == 0) ? '0' : '1';
+		head[i] = ((num%2) == 0) ? '0' : '1';
 		num = num >> 1;
 	}
-	for(i = 16; temp[i] == '0'; i--);
+	for(i = 16; head[i] == '0'; i--);
 	if( i == 0 )
 		i++;
 	while( i >= 0 )
-		*str++ = temp[i--];
+		*str++ = head[i--];
 }
 
 
@@ -360,18 +360,18 @@ LOCAL	_prtl2(num,str)
 	char	*str;
 {
 	int	i;
-	char	c, temp[35];
+	char	c, head[35];
 
-	temp[0] = '\0';
+	head[0] = '\0';
 	for(i = 1; i <= 32; i++)  {
-		temp[i] = ((num%2) == 0) ? '0' : '1';
+		head[i] = ((num%2) == 0) ? '0' : '1';
 		num = num >> 1;
 	}
-	for(i = 32; temp[i] == '0'; i--);
+	for(i = 32; head[i] == '0'; i--);
 	if( i == 0 )
 		i++;
 	while( i >= 0 )
-		*str++ = temp[i--];
+		*str++ = head[i--];
 }
 
 

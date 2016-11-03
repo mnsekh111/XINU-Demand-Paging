@@ -7,12 +7,12 @@
 
 int write_bs(char *src, bsd_t bs_id, int page) {
 
-  /* write one page of data from src
-     to the backing store bs_id, page
-     page.
-  */
-   char * phy_addr = BACKING_STORE_BASE + bs_id<<20 + page*NBPG;
-   bcopy((void*)src, phy_addr, NBPG);
+    /* write one page of data from src
+       to the backing store bs_id, page
+       page.
+     */
 
+    char * phy_addr = BACKING_STORE_BASE + (bs_id << 19) + page*NBPG;
+    bcopy((void*) src, phy_addr, NBPG);
 }
 

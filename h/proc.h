@@ -16,6 +16,7 @@
 #define	FDFREE		-1		/* free file descriptor */
 #define PRFREE		'\002'          /* process slot is free         */
 
+#define NBS		16
 
 /* process state constants */
 
@@ -45,6 +46,12 @@
 
 /* process table entry */
 
+struct process_BS_map_t{
+	unsigned int bs_status;
+	unsigned int bs;
+	unsigned int vpage;
+};
+
 struct	pentry	{
 	char	pstate;			/* process state: PRCURR, etc.	*/
 	int	pprio;			/* process priority		*/
@@ -72,7 +79,8 @@ struct	pentry	{
         int     prate;                  /* rate value in psp            */
 
 /* for demand paging */
-	unsigned long pdbr;             /* PDBR                         */
+        unsigned long pdbr;             /* PDBR                         */
+	    struct bs_map_t *bstab[NBS];    /* all backing stores mapped to this pid */
         int     store;                  /* backing store for vheap      */
         int     vhpno;                  /* starting pageno for vheap    */
         int     vhpnpages;              /* vheap size                   */
@@ -84,5 +92,6 @@ extern	struct	pentry proctab[];
 extern	int	numproc;		/* currently active processes	*/
 extern	int	nextproc;		/* search point for free slot	*/
 extern	int	currpid;		/* currently executing process	*/
-
+extern unsigned long int gtimecount;
+extern int page_replace_policy;
 #endif

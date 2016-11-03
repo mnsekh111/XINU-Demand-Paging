@@ -6,9 +6,9 @@ pferrcode: .long 0
            .globl  pfintr,pferrcode 
 pfintr:
 	popl pferrcode
-	pushfl
-	cli
-	pushal
+	pushfl  //push flag registers
+	cli  //disable interrupts
+	pushal // push general registers
 	call pfint
 	popal
 	popfl
